@@ -1,0 +1,19 @@
+{
+  "name": "ergo-token-list",
+  "version": "1.0.0",
+  "description": "Spectrum Finance Ergo token list",
+  "main": "index.js",
+  "author": "Spectrum Finance",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "build": "node index.js",
+    "test": "mocha"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
+}

@@ -1,0 +1,502 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://spectrum.io/tokenlist.schema.json",
+  "title": "Spectrum Finance Token List",
+  "description": "Schema for lists of tokens compatible with the Spectrum Finance Interface",
+  "definitions": {
+    "Version": {
+      "type": "object",
+      "description": "The version of the list, used in change detection",
+      "examples": [
+        {
+          "major": 1,
+          "minor": 0,
+          "patch": 0
+        }
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "major": {
+          "type": "integer",
+          "description": "The major version of the list. Must be incremented when tokens are removed from the list or token addresses are changed.",
+          "minimum": 0,
+          "examples": [
+            1,
+            2
+          ]
+        },
+        "minor": {
+          "type": "integer",
+          "description": "The minor version of the list. Must be incremented when tokens are added to the list.",
+          "minimum": 0,
+          "examples": [
+            0,
+            1
+          ]
+        },
+        "patch": {
+          "type": "integer",
+          "description": "The patch version of the list. Must be incremented for any changes to the list.",
+          "minimum": 0,
+          "examples": [
+            0,
+            1
+          ]
+        }
+      },
+      "required": [
+        "major",
+        "minor",
+        "patch"
+      ]
+    },
+    "TagIdentifier": {
+      "type": "string",
+      "description": "The unique identifier of a tag",
+      "minLength": 1,
+      "maxLength": 10,
+      "pattern": "^[\\w]+$",
+      "examples": [
+        "ergo",
+        "stablecoin"
+      ]
+    },
+    "ExtensionIdentifier": {
+      "type": "string",
+      "description": "The name of a token extension property",
+      "minLength": 1,
+      "maxLength": 40,
+      "pattern": "^[\\w]+$",
+      "examples": [
+        "color",
+        "is_fee_on_transfer",
+        "aliases"
+      ]
+    },
+    "ExtensionPrimitiveValue": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 42,
+          "examples": [
+            "#00000"
+          ]
+        },
+        {
+          "type": "boolean",
+          "examples": [
+            true
+          ]
+        },
+        {
+          "type": "number",
+          "examples": [
+            15
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ExtensionValue": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ExtensionPrimitiveValue"
+        },
+        {
+          "type": "object",
+          "maxProperties": 10,
+          "propertyNames": {
+            "$ref": "#/definitions/ExtensionIdentifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/ExtensionValueInner0"
+          }
+        }
+      ]
+    },
+    "ExtensionValueInner0": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ExtensionPrimitiveValue"
+        },
+        {
+          "type": "object",
+          "maxProperties": 10,
+          "propertyNames": {
+            "$ref": "#/definitions/ExtensionIdentifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/ExtensionValueInner1"
+          }
+        }
+      ]
+    },
+    "ExtensionValueInner1": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ExtensionPrimitiveValue"
+        }
+      ]
+    },
+    "TagDefinition": {
+      "type": "object",
+      "description": "Definition of a tag that can be associated with a token via its identifier",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the tag",
+          "pattern": "^[ \\w]+$",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "description": {
+          "type": "string",
+          "description": "A user-friendly description of the tag",
+          "pattern": "^[ \\w\\.,:]+$",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ],
+      "examples": [
+        {
+          "name": "Stablecoin",
+          "description": "A token with value pegged to another asset"
+        }
+      ]
+    },
+    "ExtendedTokenInfo": {
+      "type": "object",
+      "description": "Extended information about a token",
+      "additionalProperties": false,
+      "properties": {
+        "socials" : {
+          "type": "object",
+          "description": "Social links to a token",
+          "additionalProperties": false,
+          "properties": {
+            "website": {
+              "type": "string",
+              "description": "Token's Website URL",
+              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?([a-z0-9][a-z0-9\\-]*\\.)+[a-z0-9][a-z0-9\\-]*$"
+            },
+            "discord": {
+              "type": "string",
+              "description": "Token's Discord URL",
+              "pattern": "(?:(?:http|https):\\/\\/)?(?:www.)?(?:disco|discord|discordapp).(?:com|gg|io|li|me|net|org)(?:\\/(?:invite))?\\/([a-z0-9-.]+)"
+            },
+            "twitter": {
+              "type": "string",
+              "description": "Token's Twitter URL",
+              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?(?:www\\.)?twitter\\.com\\/(?:#!\\/)?@?([^\\?#]*)(?:[?#].*)?$"
+            },
+            "telegram": {
+              "type": "string",
+              "description": "Token's Telegram URL",
+              "pattern": "(?:@|(?:(?:(?:https?:\\/\\/)?t(?:elegram)?)\\.me\\/))(\\w{4,})$"
+            },
+            "coingecko": {
+              "type": "string",
+              "description": "Token's CoinGecko URL",
+              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?(?:www\\.)?coingecko\\.com\\/(?:#!\\/)?@?([^\\?#]*)(?:[?#].*)?$"
+            },
+            "coinmarketcap": {
+              "type": "string",
+              "description": "Token's CoinMarketCap URL",
+              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?(?:www\\.)?coinmarketcap\\.com\\/(?:#!\\/)?@?([^\\?#]*)(?:[?#].*)?$"
+            }
+          },
+          "required": [
+            "website",
+            "twitter",
+            "discord"
+          ]
+        }
+      }
+    },
+    "ErgoTokenInfo": {
+      "type": "object",
+      "description": "Metadata for a single Ergo token in the token list",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A human-readable name for the token, suitable for use in an interface",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "examples": [
+            "SigmaUSD stablecoin",
+            "ergopad token"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description for the subject, suitable for use in an interface",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "ticker": {
+          "type": "string",
+          "description": "The symbol for the token; must be alphanumeric",
+          "pattern": "^[a-zA-Z0-9+\\-%/$.]+$",
+          "minLength": 1,
+          "maxLength": 20,
+          "examples": [
+            "ERG",
+            "SigUSD"
+          ]
+        },
+        "project": {
+          "description": "The name of the project",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "examples": [
+            "Sigma USD",
+            "ergopad"
+          ]
+        },
+        "address": {
+          "type": "string",
+          "description": "The checksummed address of the token on the Ergo network",
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "examples": [
+            "0000000000000000000000000000000000000000000000000000000000000000",
+            "003bd19d0187117f130b62e1bcab0939929ff5c7709f843c5c4dd158949285d0"
+          ]
+        },
+        "decimals": {
+          "type": "integer",
+          "description": "The number of decimals for the token balance",
+          "minimum": 0,
+          "maximum": 255,
+          "examples": [
+            18
+          ]
+        },
+        "logoURI": {
+          "type": "string",
+          "description": "A URI to the token logo asset",
+          "format": "uri",
+          "examples": [
+            "ipfs://QmXfzKRvjZz3u5JRgC4v5mGVbm9ahrUiB4DgzHBsnWbTMM",
+            "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579"
+          ]
+        },
+        "extendedInfo": {
+          "$ref": "#/definitions/ExtendedTokenInfo"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "project",
+        "address",
+        "decimals"
+      ]
+    },
+    "CardanoTokenInfo": {
+      "type": "object",
+      "description": "Metadata for a single Cardano token in the token list",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A human-readable name for the token, suitable for use in an interface",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "examples": [
+            "SigmaUSD stablecoin",
+            "ergopad token"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description for the subject, suitable for use in an interface",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "subject": {
+          "type": "string",
+          "description": "The base16-encoded policyId + base16-encoded assetName"
+
+        },
+        "ticker": {
+          "type": "string",
+          "description": "The symbol for the token; must be alphanumeric",
+          "pattern": "^[a-zA-Z0-9+\\-%/$.]+$",
+          "minLength": 1,
+          "maxLength": 20,
+          "examples": [
+            "ADA",
+            "DJED",
+            "WMT"
+          ]
+        },
+        "project": {
+          "description": "The name of the project",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "examples": [
+            "World Mobile",
+            "Indigo DAO"
+          ]
+        },
+        "policyId": {
+          "type": "string",
+          "description": "",
+          "pattern": "^[0-9a-fA-F]{56}+$",
+          "examples": [
+            "1d7f33bd23d85e1a25d87d86fac4f199c3197a2f7afeb662a0f34e1e",
+            "a2936e00439913f1ac105c29883c013322360247c409343028b831be"
+          ]
+        },
+        "assetName" : {
+          "type": "string",
+          "description": "On-chain asset name",
+          "pattern": "^[\\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "examples": [
+            "worldmobiletoken",
+            "WingRiders"
+          ]
+        },
+        "decimals": {
+          "type": "integer",
+          "description": "The number of decimals for the token balance",
+          "minimum": 0,
+          "maximum": 255,
+          "examples": [
+            18
+          ]
+        },
+        "logoURI": {
+          "type": "string",
+          "description": "A URI to the token logo asset",
+          "format": "uri",
+          "examples": [
+            "ipfs://QmXfzKRvjZz3u5JRgC4v5mGVbm9ahrUiB4DgzHBsnWbTMM",
+            "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579"
+          ]
+        },
+        "extendedInfo": {
+          "$ref": "#/definitions/ExtendedTokenInfo"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "subject",
+        "policyId",
+        "decimals"
+      ]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the token list",
+      "minLength": 1,
+      "maxLength": 40,
+      "pattern": "^[\\w ]+$",
+      "examples": [
+        "Spectrum Finance Token List"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp of this list version; i.e. when this immutable version of the list was created"
+    },
+    "version": {
+      "$ref": "#/definitions/Version"
+    },
+    "tokens": {
+      "type": "object",
+      "description": "Lists of tokens separated by network",
+      "additionalProperties": false,
+      "properties": {
+        "ergo": {
+          "type": "array",
+          "description": "The list of Ergo tokens",
+          "items": {
+            "$ref": "#/definitions/ErgoTokenInfo"
+          },
+          "minItems": 1,
+          "maxItems": 10000
+        },
+        "cardano": {
+          "type": "array",
+          "description": "The list of Cardano tokens",
+          "items": {
+            "$ref": "#/definitions/CardanoTokenInfo"
+          },
+          "minItems": 1,
+          "maxItems": 10000
+        }
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "description": "Keywords associated with the contents of the list; may be used in list discoverability",
+      "items": {
+        "type": "string",
+        "description": "A keyword to describe the contents of the list",
+        "minLength": 1,
+        "maxLength": 20,
+        "pattern": "^[\\w ]+$",
+        "examples": [
+          "spectrum",
+          "personal tokens",
+          "token list"
+        ]
+      },
+      "maxItems": 20,
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "object",
+      "description": "A mapping of tag identifiers to their name and description",
+      "propertyNames": {
+        "$ref": "#/definitions/TagIdentifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/TagDefinition"
+      },
+      "maxProperties": 20,
+      "examples": [
+        {
+          "stablecoin": {
+            "name": "Stablecoin",
+            "description": "A token with value pegged to another asset"
+          }
+        }
+      ]
+    },
+    "logoURI": {
+      "type": "string",
+      "description": "A URI for the logo of the token list; prefer SVG or PNG of size 256x256",
+      "format": "uri",
+      "examples": [
+        "ipfs://QmXfzKRvjZz3u5JRgC4v5mGVbm9ahrUiB4DgzHBsnWbTMM"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "timestamp",
+    "version",
+    "tokens"
+  ]
+}
