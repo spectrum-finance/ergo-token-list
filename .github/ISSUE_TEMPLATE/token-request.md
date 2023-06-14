@@ -1,7 +1,7 @@
 ---
 name: Token Request (Ergo)
 about: Request a token addition to the Spectrum Finance default token list
-title: 'Add {TOKEN_TICKER}: {PROJECT_NAME}'
+title: 'Add {TOKEN_TICKER} token'
 labels: token request ergo
 assignees: ''
 ---
@@ -12,16 +12,16 @@ assignees: ''
 
 ## Please provide the following information for your token
 Project Name:  
-Address:  
+Token Address:  
 Token Name:  
-Token Ticker:    
+Token Ticker:  
 Decimals:  
 Logo URI:  
 
 ### Socials (optional)
-Website (required):  
-Twitter (required):  
-Discord (required):  
-Telegram (optional):  
-CoinMarketCap (optional):  
-CoinGecko (optional):  
+Website URL (required):  
+Twitter URL (required):  
+Discord URL (required):  
+Telegram URL (optional):  
+CoinMarketCap URL (optional):  
+CoinGecko URL (optional):  
