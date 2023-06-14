@@ -1,5 +1,5 @@
 const {version} = require("../package.json");
-const ergo = require("./tokens/ergo.json");
+const ergo = require("./tokens.json");
 const fs = require("fs");
 const path = require("path");
 
@@ -24,8 +24,6 @@ function makeErgoList(list) {
 
 module.exports = function buildTokenList() {
     const parsedVersion = version.split('.');
-
-    const cardanoRegistryList = parseCardanoTokenRegistry()
 
     return {
         name: 'Spectrum Finance Token List',

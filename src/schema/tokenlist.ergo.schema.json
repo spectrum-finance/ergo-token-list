@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://spectrum.io/tokenlist.schema.json",
-  "title": "Spectrum Finance Token List",
+  "$id": "https://spectrum.io/tokenlist.ergo.schema.json",
+  "title": "Spectrum Finance Ergo Token List",
   "description": "Schema for lists of tokens compatible with the Spectrum Finance Interface",
   "definitions": {
     "Version": {
@@ -184,33 +184,27 @@
           "properties": {
             "website": {
               "type": "string",
-              "description": "Token's Website URL",
-              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?([a-z0-9][a-z0-9\\-]*\\.)+[a-z0-9][a-z0-9\\-]*$"
+              "description": "Token's Website URL"
             },
             "discord": {
               "type": "string",
-              "description": "Token's Discord URL",
-              "pattern": "(?:(?:http|https):\\/\\/)?(?:www.)?(?:disco|discord|discordapp).(?:com|gg|io|li|me|net|org)(?:\\/(?:invite))?\\/([a-z0-9-.]+)"
+              "description": "Token's Discord URL"
             },
             "twitter": {
               "type": "string",
-              "description": "Token's Twitter URL",
-              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?(?:www\\.)?twitter\\.com\\/(?:#!\\/)?@?([^\\?#]*)(?:[?#].*)?$"
+              "description": "Token's Twitter URL"
             },
             "telegram": {
               "type": "string",
-              "description": "Token's Telegram URL",
-              "pattern": "(?:@|(?:(?:(?:https?:\\/\\/)?t(?:elegram)?)\\.me\\/))(\\w{4,})$"
+              "description": "Token's Telegram URL"
             },
             "coingecko": {
               "type": "string",
-              "description": "Token's CoinGecko URL",
-              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?(?:www\\.)?coingecko\\.com\\/(?:#!\\/)?@?([^\\?#]*)(?:[?#].*)?$"
+              "description": "Token's CoinGecko URL"
             },
             "coinmarketcap": {
               "type": "string",
-              "description": "Token's CoinMarketCap URL",
-              "pattern": "^(http\\:\\/\\/|https\\:\\/\\/)?(?:www\\.)?coinmarketcap\\.com\\/(?:#!\\/)?@?([^\\?#]*)(?:[?#].*)?$"
+              "description": "Token's CoinMarketCap URL"
             }
           },
           "required": [
@@ -221,7 +215,7 @@
         }
       }
     },
-    "ErgoTokenInfo": {
+    "TokenInfo": {
       "type": "object",
       "description": "Metadata for a single Ergo token in the token list",
       "additionalProperties": false,
@@ -231,17 +225,13 @@
           "description": "A human-readable name for the token, suitable for use in an interface",
           "minLength": 1,
           "maxLength": 40,
-          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
-          "examples": [
-            "SigmaUSD stablecoin",
-            "ergopad token"
-          ]
+          "pattern": "^\\$?[ \\w.'+\\-%\\/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$"
         },
         "description": {
           "type": "string",
           "description": "A human-readable description for the subject, suitable for use in an interface",
           "minLength": 1,
-          "maxLength": 80
+          "maxLength": 200
         },
         "ticker": {
           "type": "string",
@@ -255,10 +245,11 @@
           ]
         },
         "project": {
+          "type": "string",
           "description": "The name of the project",
           "minLength": 1,
           "maxLength": 40,
-          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "pattern": "^\\$?[ \\w.'+\\-%\\/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
           "examples": [
             "Sigma USD",
             "ergopad"
@@ -298,105 +289,7 @@
       "required": [
         "name",
         "description",
-        "project",
         "address",
-        "decimals"
-      ]
-    },
-    "CardanoTokenInfo": {
-      "type": "object",
-      "description": "Metadata for a single Cardano token in the token list",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "A human-readable name for the token, suitable for use in an interface",
-          "minLength": 1,
-          "maxLength": 40,
-          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
-          "examples": [
-            "SigmaUSD stablecoin",
-            "ergopad token"
-          ]
-        },
-        "description": {
-          "type": "string",
-          "description": "A human-readable description for the subject, suitable for use in an interface",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "subject": {
-          "type": "string",
-          "description": "The base16-encoded policyId + base16-encoded assetName"
-
-        },
-        "ticker": {
-          "type": "string",
-          "description": "The symbol for the token; must be alphanumeric",
-          "pattern": "^[a-zA-Z0-9+\\-%/$.]+$",
-          "minLength": 1,
-          "maxLength": 20,
-          "examples": [
-            "ADA",
-            "DJED",
-            "WMT"
-          ]
-        },
-        "project": {
-          "description": "The name of the project",
-          "minLength": 1,
-          "maxLength": 40,
-          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
-          "examples": [
-            "World Mobile",
-            "Indigo DAO"
-          ]
-        },
-        "policyId": {
-          "type": "string",
-          "description": "",
-          "pattern": "^[0-9a-fA-F]{56}+$",
-          "examples": [
-            "1d7f33bd23d85e1a25d87d86fac4f199c3197a2f7afeb662a0f34e1e",
-            "a2936e00439913f1ac105c29883c013322360247c409343028b831be"
-          ]
-        },
-        "assetName" : {
-          "type": "string",
-          "description": "On-chain asset name",
-          "pattern": "^[\\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
-          "examples": [
-            "worldmobiletoken",
-            "WingRiders"
-          ]
-        },
-        "decimals": {
-          "type": "integer",
-          "description": "The number of decimals for the token balance",
-          "minimum": 0,
-          "maximum": 255,
-          "examples": [
-            18
-          ]
-        },
-        "logoURI": {
-          "type": "string",
-          "description": "A URI to the token logo asset",
-          "format": "uri",
-          "examples": [
-            "ipfs://QmXfzKRvjZz3u5JRgC4v5mGVbm9ahrUiB4DgzHBsnWbTMM",
-            "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579"
-          ]
-        },
-        "extendedInfo": {
-          "$ref": "#/definitions/ExtendedTokenInfo"
-        }
-      },
-      "required": [
-        "name",
-        "description",
-        "subject",
-        "policyId",
         "decimals"
       ]
     }
@@ -423,29 +316,13 @@
       "$ref": "#/definitions/Version"
     },
     "tokens": {
-      "type": "object",
-      "description": "Lists of tokens separated by network",
-      "additionalProperties": false,
-      "properties": {
-        "ergo": {
-          "type": "array",
-          "description": "The list of Ergo tokens",
-          "items": {
-            "$ref": "#/definitions/ErgoTokenInfo"
-          },
-          "minItems": 1,
-          "maxItems": 10000
-        },
-        "cardano": {
-          "type": "array",
-          "description": "The list of Cardano tokens",
-          "items": {
-            "$ref": "#/definitions/CardanoTokenInfo"
-          },
-          "minItems": 1,
-          "maxItems": 10000
-        }
-      }
+      "type": "array",
+      "description": "The list of Ergo tokens",
+      "items": {
+        "$ref": "#/definitions/TokenInfo"
+      },
+      "minItems": 1,
+      "maxItems": 10000
     },
     "keywords": {
       "type": "array",
@@ -459,6 +336,7 @@
         "examples": [
           "spectrum",
           "personal tokens",
+          "ergo tokens",
           "token list"
         ]
       },
