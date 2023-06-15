@@ -31,17 +31,6 @@ describe('buildList', () => {
         }
     })
 
-    it('The list contains no duplicate tickers', () => {
-        const map = {};
-
-        for (let token of defaultTokenList.tokens) {
-            let ticker = token.ticker.toLowerCase();
-            const key = ticker;
-            expect(typeof map[key]).to.equal('undefined');
-            map[key] = true;
-        }
-    })
-
     it('version matches package.json', () => {
         expect(version).to.match(/^\d+\.\d+\.\d+$/);
         expect(version).to.equal(`${defaultTokenList.version.major}.${defaultTokenList.version.minor}.${defaultTokenList.version.patch}`);

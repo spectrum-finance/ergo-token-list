@@ -1,6 +1,6 @@
 # @spectrum-finance/ergo-token-list
 
-[![Tests](https://github.com/ergolabs/ergo-token-list/workflows/Tests/badge.svg)](https://github.com/spectrum-finance/ergo-token-list/actions?query=workflow%3ATests)
+[![Tests](https://github.com/spectrum-finance/ergo-token-list/workflows/Tests/badge.svg)](https://github.com/spectrum-finance/ergo-token-list/actions?query=workflow%3ATests)
 
 This package includes a JSON schema for token list used in the Ergo side of the Spectrum Finance interface
 

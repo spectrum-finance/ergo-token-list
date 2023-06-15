@@ -26,7 +26,7 @@ module.exports = function buildTokenList() {
     const parsedVersion = version.split('.');
 
     return {
-        name: 'Spectrum Finance Token List',
+        name: 'Spectrum Finance Ergo Token List',
         timestamp: new Date().toISOString(),
         version: {
             major: +parsedVersion[0],
