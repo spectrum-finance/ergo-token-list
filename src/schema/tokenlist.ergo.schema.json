@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://spectrum.io/tokenlist.ergo.schema.json",
+  "$id": "https://spectrum.fi/tokenlist.ergo.schema.json",
   "title": "Spectrum Finance Ergo Token List",
   "description": "Schema for lists of tokens compatible with the Spectrum Finance Interface",
   "definitions": {
