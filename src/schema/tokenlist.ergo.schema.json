@@ -286,7 +286,6 @@
       },
       "required": [
         "name",
-        "description",
         "address",
         "decimals"
       ]
