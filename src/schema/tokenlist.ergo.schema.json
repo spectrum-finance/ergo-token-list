@@ -208,9 +208,7 @@
             }
           },
           "required": [
-            "website",
-            "twitter",
-            "discord"
+            "website"
           ]
         }
       }
